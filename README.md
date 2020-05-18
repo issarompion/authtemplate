@@ -1,6 +1,6 @@
-# guthtemplate
+# authtemplate
 
-Full stack authentification app template using typescript, angular, express and mongoose
+Full stack project template with authentification
 
 ## get started 
 

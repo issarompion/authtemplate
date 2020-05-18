@@ -1,3 +1,3 @@
 // Interfaces
-export {IUser} from './entities'
-export {IEnvironment} from './environment'
+export {IUser} from "./entities"
+export {IEnvironment} from "./environment"

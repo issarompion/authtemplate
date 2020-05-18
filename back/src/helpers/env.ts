@@ -10,4 +10,4 @@ export const env: IEnvironment = {
     apiUrl: process.env.API_URL!,
 };
 
-console.log('env', env)
+console.log("env", env)

@@ -1,7 +1,7 @@
 {
   "name": "authtemplate",
   "version": "1.0.0",
-  "description": "Full stack authentification app template in typescript/angular",
+  "description": "Full stack project template with authentification",
   "scripts": {
     "build:back": "cd back && npm install",
     "build:front": "cd front && npm install",
