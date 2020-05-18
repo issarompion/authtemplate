@@ -1,0 +1,37 @@
+{
+  "name": "back",
+  "version": "1.0.0",
+  "description": "Backend",
+  "main": "index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "postinstall": "node_modules/.bin/tsc"
+  },
+  "dependencies": {
+    "bcryptjs": "~2.4.3",
+    "dotenv": "~8.2.0",
+    "express": "~4.17.1",
+    "jsonwebtoken": "~8.5.1",
+    "kafka-node": "~5.0.0",
+    "mongoose": "~5.8.7",
+    "path": "~0.12.7",
+    "typescript": "~3.5.3"
+  },
+  "devDependencies": {
+    "@types/node": "~12.6.2",
+    "@types/bcryptjs": "~2.4.2",
+    "@types/jsonwebtoken": "~8.3.7",
+    "@types/express": "~4.17.6",
+    "@types/mongoose": "~5.5.41"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/issarompion/authtemplate.git"
+  },
+  "author": "Issa ROMPION",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/issarompion/authtemplate/issues"
+  },
+  "homepage": "https://github.com/issarompion/authtemplate#readme"
+}

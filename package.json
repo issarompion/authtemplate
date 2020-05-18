@@ -1,0 +1,34 @@
+{
+  "name": "authtemplate",
+  "version": "1.0.0",
+  "description": "Full stack authentification app template in typescript/angular",
+  "scripts": {
+    "build:back": "cd back && npm install",
+    "build:front": "cd front && npm install",
+    "cy:open": "./node_modules/.bin/cypress open",
+    "cy:run:back": "./node_modules/.bin/cypress run --spec cypress/integration/back/*.ts",
+    "cy:run:front": "./node_modules/.bin/cypress run --spec cypress/integration/front/*.ts",
+    "start:back": "cd back && npm run start",
+    "start:front": "cd front && npm run start",
+    "test:back": "./node_modules/.bin/start-server-and-test start:back http://localhost:3000 cy:run:back",
+    "test:front": "./node_modules/.bin/start-server-and-test start:front http://localhost:4200 cy:run:front",
+    "test": "npm run test:back && npm run test:front"
+  },
+  "devDependencies": {
+    "cypress": "~4.5.0",
+    "start-server-and-test": "~1.11.0"
+  },
+  "dependencies": {
+    "typescript": "~3.5.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/issarompion/authtemplate.git"
+  },
+  "author": "Issa ROMPION",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/issarompion/authtemplate/issues"
+  },
+  "homepage": "https://github.com/issarompion/authtemplate#readme"
+}
