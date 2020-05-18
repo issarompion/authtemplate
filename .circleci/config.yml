@@ -1,0 +1,38 @@
+version: 2.1
+orbs:
+  node: circleci/node@1.1.6
+executors:
+  default:
+    docker:
+      - image: cypress/base
+    working_directory: ~/authtemplate
+    environment:
+      PROJECT_NAME: authtemplate
+      API_URL: localhost
+      API_PORT: 3000
+jobs:
+  build-test-back:
+    executor: default
+    steps:
+      - checkout
+      - node/with-cache:
+          steps:
+            - run: npm install
+            - run: npm run build:back
+            - run: npm run test:back
+      
+  build-test-front:
+    executor: default
+    steps:
+      - checkout
+      - node/with-cache:
+          steps:
+            - run: npm install
+            - run: npm run build:front
+            - run: npm run test:front
+
+workflows:
+    build-and-test:
+      jobs:
+        - build-test-back
+        - build-test-front
