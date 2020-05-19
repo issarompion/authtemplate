@@ -10,11 +10,30 @@ executors:
       PROJECT_NAME: authtemplate
       API_URL: localhost
       API_PORT: 3000
+      DB_URI: mongodb://localhost:27027
+      JWT_KEY: authtemplate
 jobs:
   build-test-back:
     executor: default
+    docker:
+      - image: cypress/base
+      # Mongo
+      - image: mongo
+        environment:
+          MONGODB_DATABASE: authtemplate
     steps:
       - checkout
+      - setup_remote_docker
+      - run:
+          name: Install Docker client
+          command: |
+            set -x
+            if [ ! -f docker-17.03.0-ce.tgz ]; then
+              curl -sLO https://download.docker.com/linux/static/stable/x86_64/docker-17.03.0-ce.tgz
+            fi
+            tar -xz -C /tmp -f docker-17.03.0-ce.tgz
+            mv /tmp/docker/* /usr/bin
+      - run: docker run --name mongodb -p 27027:27027 -d mongo
       - node/with-cache:
           steps:
             - run: npm install

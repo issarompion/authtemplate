@@ -1,0 +1,35 @@
+<div class="login h-100">
+    <div class="form-login">
+        <img class="mb-4" src="/assets/logo.png" alt="" width="100" height="100">
+        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+                    <input type="email" placeholder="E-mail" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                        <div *ngIf="f.email.errors.required">Email is required</div>
+                    </div>
+
+                    <input type="password" placeholder="Password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                        <div *ngIf="f.password.errors.required">Password is required</div>
+                    </div>
+
+                <button [disabled]="loading" class="btn btn-primary">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                    Login
+                </button>
+                
+                <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+            </form>
+        
+            <div class="d-flex justify-content-around">
+                <div>
+                  <a href="">Forgot password?</a>
+                </div>
+              </div>
+          
+            <p>Not a member?
+              <a href="/register">Register</a>
+            </p>
+</div>
+</div>

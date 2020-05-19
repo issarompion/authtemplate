@@ -1,0 +1,10 @@
+<div class="card mt-4">
+    <h4 class="card-header">Home</h4>
+    <div class="card-body">
+        <h6>Users</h6>
+        <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
+        <ul *ngIf="users">
+            <li *ngFor="let user of users">{{user.email}} {{user.name}}</li>
+        </ul>
+    </div>
+</div>
