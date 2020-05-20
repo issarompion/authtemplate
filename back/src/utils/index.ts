@@ -1,3 +1,2 @@
-// Methods
-export {DBconnect,validateEmail} from "./mongoose"
-export {sendResetPasswordEmail} from "./nodemailer"
+export * from "./mongoose"
+export * from "./nodemailer"

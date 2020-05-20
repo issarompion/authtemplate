@@ -1,4 +1,3 @@
-// Instances
-export {app} from "./express"
-export {env} from "./env"
-export {smtpOptions} from "./mails"
+export * from "./express"
+export * from "./env"
+export * from "./mails"

@@ -5,6 +5,7 @@ import {first} from "rxjs/operators";
 import {AuthService} from "../../services/auth.service";
 import {HttpService} from "../../services/http.service"
 import {IUser} from "../../models/entities"
+import {mustMatch} from "../../utils"
 
 @Component({
   selector: "app-register",
@@ -35,8 +36,11 @@ export class RegisterComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
       name: ["", Validators.required],
       email: ["", Validators.required],
-      password: ["", Validators.required]
-  });
+      password: ["", Validators.required],
+      confirmPassword:["", Validators.required]
+    }, {
+      validator: mustMatch('password', 'confirmPassword')
+    });
 
   // get return url from route parameters or default to "/"
   this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";

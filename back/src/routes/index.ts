@@ -1,2 +1,1 @@
-// Routes
-export {usersRouter} from "./users"
+export * from "./users"

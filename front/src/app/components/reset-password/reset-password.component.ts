@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {Router, ActivatedRoute, ParamMap} from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {first} from "rxjs/operators";
 import {AuthService} from "../../services/auth.service";
+import {mustMatch} from "../../utils"
 
 @Component({
   selector: 'app-reset-password',
@@ -35,7 +36,7 @@ ngOnInit() {
     password: ["", Validators.required],
     confirmPassword:["", Validators.required]
   }, {
-    validator: this.mustMatch('password', 'confirmPassword')
+    validator: mustMatch('password', 'confirmPassword')
   });
 
   // get return url from route parameters or default to "/"
@@ -66,25 +67,6 @@ ngOnInit() {
                 console.log(error)
                 this.loading = false;
             });
-}
-
-mustMatch(controlName: string, matchingControlName: string) {
-  return (formGroup: FormGroup) => {
-      const control = formGroup.controls[controlName];
-      const matchingControl = formGroup.controls[matchingControlName];
-
-      if (matchingControl.errors && !matchingControl.errors.mustMatch) {
-          // return if another validator has already found an error on the matchingControl
-          return;
-      }
-
-      // set error on matchingControl if validation fails
-      if (control.value !== matchingControl.value) {
-          matchingControl.setErrors({ mustMatch: true });
-      } else {
-          matchingControl.setErrors(null);
-      }
-  }
 }
 
 }

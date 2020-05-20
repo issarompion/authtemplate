@@ -8,7 +8,7 @@ executors:
     working_directory: ~/authtemplate
     environment:
       PROJECT_NAME: authtemplate
-      API_URI: localhost
+      API_URI: http://localhost:3000
       API_PORT: 3000
       DB_URI: mongodb://localhost:27027
       FRONT_URI: http://localhost:4200 

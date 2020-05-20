@@ -1,4 +1,3 @@
-// Interfaces
-export {IUser} from "./entities"
-export {IEnvironment} from "./environment"
-export {userResponse} from "./responses"
+export * from "./entities"
+export * from "./environment"
+export * from "./responses"
