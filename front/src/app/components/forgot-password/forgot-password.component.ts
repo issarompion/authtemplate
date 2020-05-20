@@ -6,12 +6,12 @@ import {AuthService} from "../../services/auth.service";
 import {IUser} from "../../models/entities"
 
 @Component({
-  selector: "app-register",
-  templateUrl: "./register.component.html",
-  styleUrls: ["./register.component.scss"]
+  selector: 'app-forgot-password',
+  templateUrl: './forgot-password.component.html',
+  styleUrls: ['./forgot-password.component.scss']
 })
-export class RegisterComponent implements OnInit {
-  registerForm: FormGroup;
+export class ForgotPasswordComponent implements OnInit {
+  forgotPasswordForm: FormGroup;
   loading = false;
   submitted = false;
   returnUrl: string;
@@ -30,8 +30,10 @@ export class RegisterComponent implements OnInit {
 }
 
   ngOnInit() {
-    this.registerForm = this.formBuilder.group({
+    this.forgotPasswordForm = this.formBuilder.group({
+      name: ["", Validators.required],
       email: ["", Validators.required],
+      password: ["", Validators.required]
   });
 
   // get return url from route parameters or default to "/"
@@ -39,32 +41,32 @@ export class RegisterComponent implements OnInit {
   }
 
   // convenience getter for easy access to form fields
-  get f() { return this.registerForm.controls; }
+  get f() { return this.forgotPasswordForm.controls; }
 
   onSubmit() {
     this.submitted = true;
 
     // stop here if form is invalid
-    if (this.registerForm.invalid) {
+    if (this.forgotPasswordForm.invalid) {
         return;
     }
 
     this.loading = true;
-    // let user : IUser = {
-    //   name : this.f.name.value,
-    //   email : this.f.email.value,
-    //   password : this.f.password.value,
-    // }
-    // this.authenticationService.create(user)
-    //     .pipe(first())
-    //     .subscribe(
-    //         data => {
-    //             this.router.navigate([this.returnUrl]);
-    //         },
-    //         error => {
-    //             this.error = error;
-    //             this.loading = false;
-    //         });
+    let user : IUser = {
+      name : this.f.name.value,
+      email : this.f.email.value,
+      password : this.f.password.value,
+    }
+    this.authenticationService.create(user)
+        .pipe(first())
+        .subscribe(
+            data => {
+                this.router.navigate([this.returnUrl]);
+            },
+            error => {
+                this.error = error;
+                this.loading = false;
+            });
 }
 
 }

@@ -2,16 +2,18 @@ import {BrowserModule} from "@angular/platform-browser";
 import {NgModule, Provider} from "@angular/core";
 import {ReactiveFormsModule,FormsModule} from "@angular/forms";
 import {HttpClientModule, HTTP_INTERCEPTORS} from "@angular/common/http";
-import {environment} from "../environments/environment";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {ToastrModule} from 'ngx-toastr';
 
+import {environment} from "../environments/environment";
+import {JwtInterceptor, ErrorInterceptor, FakeBackendInterceptor} from "./helpers";
 import {AppRoutingModule} from "./app-routing.module";
 import {AppComponent} from "./app.component";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HomeComponent} from "./components/home/home.component";
 import {LoginComponent} from "./components/login/login.component";
-
-import {JwtInterceptor, ErrorInterceptor, FakeBackendInterceptor} from "./helpers";
 import {RegisterComponent} from "./components/register/register.component";
+import {ForgotPasswordComponent} from './components/forgot-password/forgot-password.component';
+import {ResetPasswordComponent} from './components/reset-password/reset-password.component';
 
 let isDev : boolean = !environment.production
 
@@ -24,7 +26,9 @@ const mockProviders : Provider[] = [
     AppComponent,
     HomeComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +36,8 @@ const mockProviders : Provider[] = [
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

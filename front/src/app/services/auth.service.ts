@@ -27,7 +27,7 @@ export class AuthService {
   }
 
 login(email: string, password: string) {
-    return this.http.post<IUser>(`${environment.apiUri}/users/login`, { email, password },httpOptions)
+    return this.http.post<IUser>(`${environment.apiUri}/users/login`, { email, password }, httpOptions)
         .pipe(map(user => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             localStorage.setItem("currentUser", JSON.stringify(user));
@@ -38,8 +38,12 @@ login(email: string, password: string) {
 
 logout() {
     // remove user from local storage to log user out
-    localStorage.removeItem("currentUser");
-    this.currentUserSubject.next(null);
+    return this.http.post<IUser>(`${environment.apiUri}/users/login`, {}, httpOptions)
+    .pipe(map(user => {
+      console.log('user deco : ',user)
+      localStorage.removeItem("currentUser");
+      this.currentUserSubject.next(null);
+    }))
 }
 
 create(user : IUser){
@@ -49,6 +53,13 @@ create(user : IUser){
       localStorage.setItem("currentUser", JSON.stringify(user));
       this.currentUserSubject.next(user);
       return user;
+  }));
+}
+
+forgot(email:string){
+  return this.http.post<string>(`${environment.apiUri}/users/login`, { email }, httpOptions)
+  .pipe(map(msg => {
+    console.log()
   }));
 }
 

@@ -8,7 +8,7 @@ executors:
     working_directory: ~/authtemplate
     environment:
       PROJECT_NAME: authtemplate
-      API_URL: localhost
+      API_URI: localhost
       API_PORT: 3000
       DB_URI: mongodb://localhost:27027
       FRONT_URI: http://localhost:4200 
@@ -19,7 +19,6 @@ jobs:
     executor: default
     docker:
       - image: cypress/base
-      # Mongo
       - image: mongo
         environment:
           MONGODB_DATABASE: authtemplate
