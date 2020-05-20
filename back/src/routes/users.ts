@@ -1,4 +1,4 @@
-import e, {Router, Request, Response} from "express"
+import {Router, Request, Response} from "express"
 import {IUser} from "@models"
 import {list, create, login, read, logout, forgot, reset} from "@services"
 

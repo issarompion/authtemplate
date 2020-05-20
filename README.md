@@ -14,6 +14,8 @@ DB_URI=mongodb://localhost:27027
 FRONT_URI=http://localhost:4200
 JWT_KET=authtemplate
 SALT_FACTOR=10
+EMAIL=your_email@gmail.com
+EMAIL_PASSWORD=*********
 ```
 
 ### start
