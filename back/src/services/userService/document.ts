@@ -6,7 +6,10 @@ export interface IUserDocument extends Document {
   email: string,
   name: string,
   password: string,
-  tokens : string[]
+  tokens : string[],
+  resetPasswordToken?: string,
+  resetPasswordExpires?: number
+
   // methods
   convert(token?:string):IUser
 }

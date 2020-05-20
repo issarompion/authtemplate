@@ -10,7 +10,9 @@
       "express",
       "bcryptjs",
       "jsonwebtoken",
-      "mongoose"
+      "mongoose",
+      "nodemailer",
+      "nodemailer-smtp-transport"
     ],
     "baseUrl": ".",
     "resolveJsonModule": true,

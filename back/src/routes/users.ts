@@ -1,6 +1,6 @@
 import e, {Router, Request, Response} from "express"
 import {IUser} from "@models"
-import {list, create, login, read, logout} from "@services"
+import {list, create, login, read, logout, forgot, reset} from "@services"
 
 const router: Router = Router()
 
@@ -54,6 +54,21 @@ router.post("/logout", async (request: Request, response: Response) => {
     }else{
         response.status(401).send("No authorization header")
     }
+})
+
+router.post("/forgot", async (request: Request, response: Response) => {
+        let email: string = request.body.email
+        forgot(email).then(res =>{
+            response.status(res.status).send(res.body)
+        })
+})
+
+router.post("/reset/:refreshToken", async (request: Request, response: Response) => {
+    let refreshToken: string = request.params.refreshToken
+    let password: string = request.body.password
+    reset(refreshToken,password).then(res =>{
+        response.status(res.status).send(res.body)
+    })
 })
 
 interface RequestWithCurrentUser extends Request {

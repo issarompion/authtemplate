@@ -1,2 +1,2 @@
 // Services
-export {list, create, login, read, logout} from "./userService"
+export {list, create, login, read, logout,  forgot, reset} from "./userService"

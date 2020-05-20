@@ -2,6 +2,7 @@ import {verify,sign} from "jsonwebtoken"
 import {compare} from "bcryptjs"
 import {env} from "@helpers"
 import {userResponse,IUser} from "@models"
+import {sendResetPasswordEmail} from "@utils"
 import {UserModel} from "./schema"
 import {IUserDocument} from "./document"
 
@@ -118,12 +119,66 @@ export const logout = (token:string) : Promise<userResponse> =>{
     })
 }
 
+export const forgot = (email:string) : Promise<userResponse> =>{
+    return new Promise((res) => {
+        UserModel.findOne({email:email},function(err, user) {
+            if(err){
+                res({body : err.message, status : 404})   
+            }else{
+                if(!user){
+                    res({body : "No account with that email address exists", status : 401})
+                }else{
+                    generateRefreshToken(user)
+                    .then(refreshToken => {
+                        sendResetPasswordEmail(email,refreshToken)
+                        .then(msg =>{
+                            res({body:msg, status:200})
+                        })
+                    })
+                }
+            }
+        })
+    })
+}
+
+export const reset = (refreshToken:string,password:string) : Promise<userResponse> =>{
+    return new Promise((res) => {
+        UserModel.findOne({ resetPasswordToken: refreshToken, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+            if(err){
+                res({body : err.message, status : 404})   
+            }else{
+                if (!user) {
+                    res({body : "Password reset token is invalid or has expired", status : 401})
+                }else{
+                    user.password = password;
+                    user.resetPasswordToken = undefined;
+                    user.resetPasswordExpires = undefined;
+                    user.save(function() {
+                        res({body:"Success! Your password has been changed.", status:200})
+                    })
+                }
+            }
+        })
+    })
+}
+
 const generateAuthToken = (user : IUserDocument): Promise<string> =>{
     return new Promise((res) => {
         let token = sign({_id: user._id}, env.jwtKey)
         user.tokens = (user as any).tokens.concat({token})
         user.save(function() {
             res(token)
+        })
+    }) 
+}
+
+const generateRefreshToken = (user: IUserDocument) : Promise<string> => {
+    return new Promise((res) => {
+        let refreshToken = sign({_id: user._id}, env.jwtKey)
+        user.resetPasswordToken = refreshToken
+        user.resetPasswordExpires = Date.now() + 3600000 // 1 hour
+        user.save(function() {
+            res(refreshToken)
         })
     }) 
 }

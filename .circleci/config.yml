@@ -11,7 +11,9 @@ executors:
       API_URL: localhost
       API_PORT: 3000
       DB_URI: mongodb://localhost:27027
+      FRONT_URI: http://localhost:4200 
       JWT_KEY: authtemplate
+      SALT_FACTOR: 10
 jobs:
   build-test-back:
     executor: default

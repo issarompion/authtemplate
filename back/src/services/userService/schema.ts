@@ -2,11 +2,8 @@ import {Schema, model} from "mongoose"
 import {hash,genSalt} from "bcryptjs"
 import {IUserDocument} from "./document"
 import {IUser} from "@models"
-import {DBconnect,validateEmail} from "@utils"
-
-DBconnect()
-.then(() => console.log("DB Connected!"))
-.catch(err => {console.error(`DB Connection Error:${err.message}`)})
+import {validateEmail} from "@utils"
+import {env} from "@helpers"
 
 const UserSchema: Schema = new Schema({
     name: {
@@ -30,13 +27,15 @@ const UserSchema: Schema = new Schema({
             type: String,
             required: true
         }
-    }]
+    }],
+    resetPasswordToken: String,
+    resetPasswordExpires: Date
 })
 
 UserSchema.pre<IUserDocument>("save", function (next) {
     var user = this
     if (user.isModified("password")) {
-        genSalt(10, function (err, salt) {
+        genSalt(env.saltFactor, function (err, salt) {
             if (err) { return next(err) }
             hash(user.password, salt, (err, hash) => {
                 if (err) { return next(err) }

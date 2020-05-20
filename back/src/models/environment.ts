@@ -1,7 +1,11 @@
 export interface IEnvironment {
     projectName: string,
-    apiUrl:string,
+    apiUri:string,
     apiPort:string,
     dbUri:string,
-    jwtKey:string
+    frontUri:string,
+    jwtKey:string,
+    saltFactor:number,
+    email:string,
+    emailPassword:string
 }
