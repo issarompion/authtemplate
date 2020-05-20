@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Router, ActivatedRoute, ParamMap} from '@angular/router';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {first} from "rxjs/operators";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-reset-password',
@@ -6,10 +10,82 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./reset-password.component.scss']
 })
 export class ResetPasswordComponent implements OnInit {
+  resetPasswordForm: FormGroup;
+  loading = false;
+  submitted = false;
+  returnUrl: string;
+  error = "";
+  refreshToken:string;
 
-  constructor() { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    private authenticationService: AuthService
+) { 
+    // redirect to home if already logged in
+    if (this.authenticationService.currentUserValue) { 
+        this.router.navigate(["/"]);
+    }
+}
 
-  ngOnInit() {
+ngOnInit() {
+  this.refreshToken = this.route.snapshot.paramMap.get('refreshToken');
+  this.resetPasswordForm = this.formBuilder.group({
+    password: ["", Validators.required],
+    confirmPassword:["", Validators.required]
+  }, {
+    validator: this.mustMatch('password', 'confirmPassword')
+  });
+
+  // get return url from route parameters or default to "/"
+  this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
+}
+
+  // convenience getter for easy access to form fields
+  get f() { return this.resetPasswordForm.controls; }
+
+  onSubmit() {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.resetPasswordForm.invalid) {
+        return;
+    }
+
+    this.loading = true;
+    let password = this.f.password.value
+    this.authenticationService.reset(this.refreshToken,password)
+        .pipe(first())
+        .subscribe(
+            data => {
+                this.router.navigate([this.returnUrl]);
+            },
+            error => {
+                this.error = error;
+                console.log(error)
+                this.loading = false;
+            });
+}
+
+mustMatch(controlName: string, matchingControlName: string) {
+  return (formGroup: FormGroup) => {
+      const control = formGroup.controls[controlName];
+      const matchingControl = formGroup.controls[matchingControlName];
+
+      if (matchingControl.errors && !matchingControl.errors.mustMatch) {
+          // return if another validator has already found an error on the matchingControl
+          return;
+      }
+
+      // set error on matchingControl if validation fails
+      if (control.value !== matchingControl.value) {
+          matchingControl.setErrors({ mustMatch: true });
+      } else {
+          matchingControl.setErrors(null);
+      }
   }
+}
 
 }
+

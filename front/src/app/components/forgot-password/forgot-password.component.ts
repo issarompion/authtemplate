@@ -3,7 +3,6 @@ import {Router, ActivatedRoute} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {first} from "rxjs/operators";
 import {AuthService} from "../../services/auth.service";
-import {IUser} from "../../models/entities"
 
 @Component({
   selector: 'app-forgot-password',
@@ -31,9 +30,7 @@ export class ForgotPasswordComponent implements OnInit {
 
   ngOnInit() {
     this.forgotPasswordForm = this.formBuilder.group({
-      name: ["", Validators.required],
-      email: ["", Validators.required],
-      password: ["", Validators.required]
+      email: ["", Validators.required]
   });
 
   // get return url from route parameters or default to "/"
@@ -52,12 +49,8 @@ export class ForgotPasswordComponent implements OnInit {
     }
 
     this.loading = true;
-    let user : IUser = {
-      name : this.f.name.value,
-      email : this.f.email.value,
-      password : this.f.password.value,
-    }
-    this.authenticationService.create(user)
+    let email = this.f.email.value
+    this.authenticationService.forgot(email)
         .pipe(first())
         .subscribe(
             data => {

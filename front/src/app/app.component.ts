@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
 import {Router} from "@angular/router";
-
+import {first} from "rxjs/operators";
 import {AuthService} from "./services/auth.service";
 import {IUser} from "./models/entities";
 import {environment} from "../environments/environment"
@@ -22,7 +22,10 @@ export class AppComponent {
     }
 
     logout() {
-        this.authenticationService.logout();
-        this.router.navigate(["/login"]);
+        this.authenticationService.logout()
+        .pipe(first())
+        .subscribe(() => {
+            this.router.navigate(["/login"]);
+        });
     }
 }

@@ -6,7 +6,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ToastrModule} from 'ngx-toastr';
 
 import {environment} from "../environments/environment";
-import {JwtInterceptor, ErrorInterceptor, FakeBackendInterceptor} from "./helpers";
+import {JwtInterceptor, ErrorInterceptor, FakeBackendInterceptor, SuccessInterceptor} from "./helpers";
 import {AppRoutingModule} from "./app-routing.module";
 import {AppComponent} from "./app.component";
 import {HomeComponent} from "./components/home/home.component";
@@ -42,6 +42,7 @@ const mockProviders : Provider[] = [
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: SuccessInterceptor, multi: true },
     // provider used to create fake backend
     isDev ? mockProviders : []
   ],

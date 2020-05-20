@@ -3,6 +3,7 @@ import {Router, ActivatedRoute} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {first} from "rxjs/operators";
 import {AuthService} from "../../services/auth.service";
+import {HttpService} from "../../services/http.service"
 import {IUser} from "../../models/entities"
 
 @Component({
@@ -21,7 +22,8 @@ export class RegisterComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authenticationService: AuthService
+    private authenticationService: AuthService,
+    private httpService: HttpService
 ) { 
     // redirect to home if already logged in
     if (this.authenticationService.currentUserValue) { 
@@ -31,7 +33,9 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
+      name: ["", Validators.required],
       email: ["", Validators.required],
+      password: ["", Validators.required]
   });
 
   // get return url from route parameters or default to "/"
@@ -50,21 +54,21 @@ export class RegisterComponent implements OnInit {
     }
 
     this.loading = true;
-    // let user : IUser = {
-    //   name : this.f.name.value,
-    //   email : this.f.email.value,
-    //   password : this.f.password.value,
-    // }
-    // this.authenticationService.create(user)
-    //     .pipe(first())
-    //     .subscribe(
-    //         data => {
-    //             this.router.navigate([this.returnUrl]);
-    //         },
-    //         error => {
-    //             this.error = error;
-    //             this.loading = false;
-    //         });
+    let user : IUser = {
+      name : this.f.name.value,
+      email : this.f.email.value,
+      password : this.f.password.value,
+    }
+    this.authenticationService.create(user)
+        .pipe(first())
+        .subscribe(
+            data => {
+                this.router.navigate([this.returnUrl]);
+            },
+            error => {
+                this.error = error;
+                this.loading = false;
+            });
 }
 
 }

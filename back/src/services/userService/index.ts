@@ -154,7 +154,7 @@ export const reset = (refreshToken:string,password:string) : Promise<userRespons
                     user.resetPasswordToken = undefined;
                     user.resetPasswordExpires = undefined;
                     user.save(function() {
-                        res({body:"Success! Your password has been changed.", status:200})
+                        res({body:"Success! Your password has been changed", status:200})
                     })
                 }
             }
