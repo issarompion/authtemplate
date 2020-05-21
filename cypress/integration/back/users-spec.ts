@@ -33,9 +33,9 @@ describe("Create user", function() {
 })
 
 
-describe("List /users/ => 200", function() {
+describe("List users", function() {
 
-    it("GET", () => {
+    it("GET /users/ => 200", () => {
         cy.request({
             method:"GET",
             url: "/users"
