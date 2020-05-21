@@ -35,7 +35,7 @@ jobs:
             DOCKERIZE_VERSION: v0.3.0
       - run:
           name: Waiting for Mongo
-          command: dockerize -wait mongodb://localhost:27017 -timeout 1m
+          command: dockerize -wait tcp://localhost:27017 -timeout 1m
       - node/with-cache:
           steps:
             - run: npm install
