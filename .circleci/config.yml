@@ -26,15 +26,13 @@ jobs:
       - checkout
       - setup_remote_docker
       - run:
-          name: Install Docker client
-          command: |
-            set -x
-            if [ ! -f docker-17.03.0-ce.tgz ]; then
-              curl -sLO https://download.docker.com/linux/static/stable/x86_64/docker-17.03.0-ce.tgz
-            fi
-            tar -xz -C /tmp -f docker-17.03.0-ce.tgz
-            mv /tmp/docker/* /usr/bin
-      - run: docker run --name mongodb -p 27027:27027 -d circleci/mongo
+          name: install dockerize
+          command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+          environment:
+            DOCKERIZE_VERSION: v0.3.0
+      - run:
+          name: Waiting for Mongo
+          command: dockerize -wait tcp://localhost:27017 -timeout 1m
       - node/with-cache:
           steps:
             - run: npm install
