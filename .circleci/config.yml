@@ -34,7 +34,6 @@ jobs:
           environment:
             DOCKERIZE_VERSION: v0.3.0
       - run:
-      - run:
           name: Waiting for Mongo
           command: dockerize -wait tcp://localhost:27017 -timeout 1m
       - node/with-cache:
