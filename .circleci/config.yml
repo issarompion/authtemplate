@@ -5,11 +5,13 @@ executors:
   default:
     docker:
       - image: cypress/base
+      - image: mongo:4.2.0
     working_directory: ~/authtemplate
     environment:
       PROJECT_NAME: authtemplate
       API_URI: http://localhost:3000
       API_PORT: 3000
+      DB_URI: mongodb://localhost:27017/authtemplate
       FRONT_URI: http://localhost:4200 
       JWT_KEY: authtemplate
       SALT_FACTOR: 10
