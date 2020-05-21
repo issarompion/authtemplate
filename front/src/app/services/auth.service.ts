@@ -11,7 +11,7 @@ const httpOptions = {
 
 const httpOptionsPlain = {
   headers: new HttpHeaders({
-    'Content-Type': 'application/json'
+    "Content-Type": "application/json"
   }),
   responseType: "text" as "json"
 };

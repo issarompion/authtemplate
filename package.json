@@ -5,9 +5,10 @@
   "scripts": {
     "build:back": "cd back && npm install",
     "build:front": "cd front && npm install",
-    "cy:open": "./node_modules/.bin/cypress open",
-    "cy:run:back": "./node_modules/.bin/cypress run --spec cypress/integration/back/*.ts",
-    "cy:run:front": "./node_modules/.bin/cypress run --spec cypress/integration/front/*.ts",
+    "cy:open:back": "CYPRESS_BASE_URL=http://localhost:3000 ./node_modules/.bin/cypress open",
+    "cy:open:front":"CYPRESS_BASE_URL=http://localhost:4200 ./node_modules/.bin/cypress open",
+    "cy:run:back": "CYPRESS_BASE_URL=http://localhost:3000 ./node_modules/.bin/cypress run --spec cypress/integration/back/*.ts",
+    "cy:run:front": "CYPRESS_BASE_URL=http://localhost:4200 ./node_modules/.bin/cypress run --spec cypress/integration/front/*.ts",
     "start:back": "cd back && npm run start",
     "start:front": "cd front && npm run start",
     "test:back": "./node_modules/.bin/start-server-and-test start:back http://localhost:3000 cy:run:back",

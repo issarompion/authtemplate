@@ -162,6 +162,34 @@ export const reset = (refreshToken:string,password:string) : Promise<userRespons
     })
 }
 
+export const remove = (token:string) : Promise<userResponse> => {
+    return new Promise((res) => {
+        verify(token,env.jwtKey,function(err,result:any){
+            if(err){
+                res({body : err.message,status : 401})
+            }
+            UserModel.findOne({ _id: result._id,"tokens.token": token },function(err,user) {
+                if(err){
+                    res({body : err.message,status : 404})
+                }else{
+                    if (!user) {
+                        res({body : "Not authorized to access this resource", status : 401
+                        })
+                    }else{
+                        UserModel.deleteOne({_id: user._id},function(err){
+                            if(err){
+                                res({body : err.message,status : 404})
+                            }else{
+                                res({body : user.convert(), status : 200})
+                            }
+                        })
+                    }
+                }
+            })
+        })
+    })
+}
+
 const generateAuthToken = (user : IUserDocument): Promise<string> =>{
     return new Promise((res) => {
         let token = sign({_id: user._id}, env.jwtKey)

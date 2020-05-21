@@ -39,7 +39,7 @@ export class RegisterComponent implements OnInit {
       password: ["", Validators.required],
       confirmPassword:["", Validators.required]
     }, {
-      validator: mustMatch('password', 'confirmPassword')
+      validator: mustMatch("password", "confirmPassword")
     });
 
   // get return url from route parameters or default to "/"

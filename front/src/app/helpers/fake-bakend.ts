@@ -39,7 +39,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return reset();
                 default:
                     // pass through any requests not handled above
-                    console.log('default')
+                    console.log("default")
                     return next.handle(request);
             }    
         }

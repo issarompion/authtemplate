@@ -5,9 +5,9 @@ import {first} from "rxjs/operators";
 import {AuthService} from "../../services/auth.service";
 
 @Component({
-  selector: 'app-forgot-password',
-  templateUrl: './forgot-password.component.html',
-  styleUrls: ['./forgot-password.component.scss']
+  selector: "app-forgot-password",
+  templateUrl: "./forgot-password.component.html",
+  styleUrls: ["./forgot-password.component.scss"]
 })
 export class ForgotPasswordComponent implements OnInit {
   forgotPasswordForm: FormGroup;

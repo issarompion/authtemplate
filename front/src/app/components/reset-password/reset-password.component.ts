@@ -1,14 +1,14 @@
-import {Component, OnInit} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
+import {Component, OnInit} from "@angular/core";
+import {Router, ActivatedRoute} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {first} from "rxjs/operators";
 import {AuthService} from "../../services/auth.service";
 import {mustMatch} from "../../utils"
 
 @Component({
-  selector: 'app-reset-password',
-  templateUrl: './reset-password.component.html',
-  styleUrls: ['./reset-password.component.scss']
+  selector: "app-reset-password",
+  templateUrl: "./reset-password.component.html",
+  styleUrls: ["./reset-password.component.scss"]
 })
 export class ResetPasswordComponent implements OnInit {
   resetPasswordForm: FormGroup;
@@ -31,12 +31,12 @@ export class ResetPasswordComponent implements OnInit {
 }
 
 ngOnInit() {
-  this.refreshToken = this.route.snapshot.paramMap.get('refreshToken');
+  this.refreshToken = this.route.snapshot.paramMap.get("refreshToken");
   this.resetPasswordForm = this.formBuilder.group({
     password: ["", Validators.required],
     confirmPassword:["", Validators.required]
   }, {
-    validator: mustMatch('password', 'confirmPassword')
+    validator: mustMatch("password", "confirmPassword")
   });
 
   // get return url from route parameters or default to "/"

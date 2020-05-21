@@ -1,8 +1,8 @@
 import {Injectable} from "@angular/core";
-import {HttpInterceptor, HttpHandler, HttpRequest, HttpEvent, HttpResponse}   from '@angular/common/http';
+import {HttpInterceptor, HttpHandler, HttpRequest, HttpEvent, HttpResponse}   from "@angular/common/http";
 import {Observable} from "rxjs";
 import {tap} from "rxjs/operators";
-import {ToastrService} from 'ngx-toastr';
+import {ToastrService} from "ngx-toastr";
 
 @Injectable()
 export class SuccessInterceptor implements HttpInterceptor {
@@ -17,7 +17,7 @@ export class SuccessInterceptor implements HttpInterceptor {
                     tap(evt => {
                         if (evt instanceof HttpResponse) {
                             if(evt.body){
-                                this.toasterService.success(evt.body, "Success", { positionClass: 'toast-bottom-center' });
+                                this.toasterService.success(evt.body, "Success", { positionClass: "toast-bottom-center" });
                             }
                         }
                     }));
