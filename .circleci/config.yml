@@ -4,7 +4,7 @@ orbs:
 executors:
   default:
     docker:
-      - image: cypress/base
+      - image: circleci/node:10.16.3
       - image: mongo:4.2.0
     working_directory: ~/authtemplate
     environment:
