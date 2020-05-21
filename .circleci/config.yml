@@ -10,7 +10,7 @@ executors:
       PROJECT_NAME: authtemplate
       API_URI: http://localhost:3000
       API_PORT: 3000
-      DB_URI: mongodb://localhost:27027
+      DB_URI: tcp://localhost:27027
       FRONT_URI: http://localhost:4200 
       JWT_KEY: authtemplate
       SALT_FACTOR: 10
@@ -19,7 +19,7 @@ jobs:
     executor: default
     docker:
       - image: cypress/base
-      - image: mongo
+      - image: circleci/mongo
         environment:
           MONGODB_DATABASE: authtemplate
     steps:
