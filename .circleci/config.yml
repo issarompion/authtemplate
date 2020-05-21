@@ -10,7 +10,6 @@ executors:
       PROJECT_NAME: authtemplate
       API_URI: http://localhost:3000
       API_PORT: 3000
-      DB_URI: mongodb://localhost:27027/authtemplate
       FRONT_URI: http://localhost:4200 
       JWT_KEY: authtemplate
       SALT_FACTOR: 10
@@ -19,23 +18,8 @@ jobs:
     executor: default
     docker:
       - image: cypress/base
-      - image: circleci/mongo
-        environment:
-          MONGODB_DATABASE: authtemplate
     steps:
       - checkout
-      - setup_remote_docker
-      - run:
-          name: install sudo 
-          command: apt-get update && apt-get -y install sudo
-      - run:
-          name: install dockerize
-          command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
-          environment:
-            DOCKERIZE_VERSION: v0.3.0
-      - run:
-          name: Waiting for Mongo
-          command: dockerize -wait tcp://localhost:27017 -timeout 1m
       - node/with-cache:
           steps:
             - run: npm install
