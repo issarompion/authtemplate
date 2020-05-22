@@ -4,7 +4,12 @@ Full stack project template with authentification using angular for frontend, ex
 
 ## get started 
 
-### .env file
+```bash
+$ git clone https://github.com/issarompion/authtemplate.git
+$ cd authtemplate
+```
+
+### create a .env file in project folder
 
 ```
 PROJECT_NAME=authtemplate
@@ -18,9 +23,26 @@ EMAIL=your_email@gmail.com
 EMAIL_PASSWORD=*********
 ```
 
-### start
+### install
+
+```bash
+$ npm install
+$ npm run build:back
+$ npm run build:front
+```
+
+### start in 2 consoles
 
 ```bash
 $ npm run start:back
+```
+
+```bash
 $ npm run start:front
+```
+
+### test
+
+```bash
+$ npm run test
 ```
