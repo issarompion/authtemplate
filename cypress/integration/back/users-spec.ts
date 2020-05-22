@@ -13,7 +13,6 @@ import {
 
 let email = `${Math.random().toString(36).substring(7)}@gmail.com` // random caract beetwen 1 and 6
 let password : string = "football"
-let newpassword : string = "newfootball"
 let username : string = "test"
 let token : string
 let userId : string
@@ -258,22 +257,6 @@ describe("Login user", () => {
 })
 
 describe("Forgot user password", () => {
-    it("POST /users/forgot => Success", () => {
-        cy.request({
-            method:"POST",
-            url: "/users/forgot",
-            body: {
-                email : email
-            }
-        })
-        .then((response) => {
-            expect(response).property("status").to.equal(200)
-            expect(response.body).equal(userForgotSuccessMsg(email))
-        })
-        .its("headers")
-        .its("content-type")
-        .should("include", "text")
-    })
 
     it("POST /users/forgot => => forgotEmailErrorr", () => {
         cy.request({
