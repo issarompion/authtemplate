@@ -11,6 +11,6 @@ describe("Main", () => {
         })
         .its("headers")
         .its("content-type")
-        .should("include", "text") //application/json
+        .should("include", "text")
     })
 })

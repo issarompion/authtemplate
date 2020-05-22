@@ -1,4 +1,4 @@
-import {userResetSuccessMsg,userForgotSuccessMsg} from "../../../back/src/helpers/success"
+import {Chance} from "chance"
 import {
     noAuthorizationHeaderError,
     credentialsError,
@@ -10,8 +10,9 @@ import {
     forgotEmailError,
     resetTokenError
 } from "../../../back/src/helpers/errors"
+const chance = new Chance()
 
-let email = `${Math.random().toString(36).substring(7)}@gmail.com` // random caract beetwen 1 and 6
+let email = chance.email()
 let password : string = "football"
 let username : string = "test"
 let token : string
@@ -249,6 +250,21 @@ describe("Login user", () => {
         .then((response) => {
             expect(response).property("status").to.equal(loginCredentialsFailError.status)
             expect(response.body).equal(loginCredentialsFailError.body)
+        })
+        .its("headers")
+        .its("content-type")
+        .should("include", "text")
+    })
+
+    it("POST /users/login => credentialsError", () => {
+        cy.request({
+            method:"POST",
+            url: "/users/login",
+            failOnStatusCode: false
+        })
+        .then((response) => {
+            expect(response).property("status").to.equal(credentialsError.status)
+            expect(response.body).equal(credentialsError.body)
         })
         .its("headers")
         .its("content-type")

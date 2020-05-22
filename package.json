@@ -6,9 +6,9 @@
     "build:back": "cd back && npm install",
     "build:front": "cd front && npm install",
     "cy:open:back": "CYPRESS_BASE_URL=http://localhost:3000 ./node_modules/.bin/cypress open",
-    "cy:open:front":"CYPRESS_BASE_URL=http://localhost:4200 ./node_modules/.bin/cypress open",
-    "cy:run:back": "CYPRESS_BASE_URL=http://localhost:3000 ./node_modules/.bin/cypress run --spec cypress/integration/back/*.ts",
-    "cy:run:front": "CYPRESS_BASE_URL=http://localhost:4200 ./node_modules/.bin/cypress run --spec cypress/integration/front/*.ts",
+    "cy:open:front": "CYPRESS_BASE_URL=http://localhost:4200 ./node_modules/.bin/cypress open",
+    "cy:run:back": "CYPRESS_BASE_URL=http://localhost:3000 ./node_modules/.bin/cypress run --spec cypress/integration/back/*.spec.ts",
+    "cy:run:front": "CYPRESS_BASE_URL=http://localhost:4200 ./node_modules/.bin/cypress run --spec cypress/integration/front/*.spec.ts",
     "start:back": "cd back && npm run start",
     "start:front": "cd front && npm run start",
     "test:back": "./node_modules/.bin/start-server-and-test start:back http://localhost:3000 cy:run:back",
@@ -16,6 +16,8 @@
     "test": "npm run test:back && npm run test:front"
   },
   "devDependencies": {
+    "@types/chance": "~1.1.0",
+    "chance": "~1.1.5",
     "cypress": "~4.5.0",
     "start-server-and-test": "~1.11.0"
   },

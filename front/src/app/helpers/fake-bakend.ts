@@ -3,6 +3,18 @@ import {HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor} from
 import {Observable, of, throwError} from "rxjs";
 import {delay, mergeMap, materialize, dematerialize} from "rxjs/operators";
 import {IUser} from "../models/entities";
+import {
+    noAuthorizationHeaderError,
+    credentialsError,
+    createAlreadyExistsError,
+    createBodyError,
+    loginCredentialsFailError,
+    jwtError,
+    notAuthorizedError,
+    forgotEmailError,
+    resetTokenError
+} from "../../../../back/src/helpers/errors"
+import {userForgotSuccessMsg,userResetSuccessMsg} from "../../../../back/src/helpers/success"
 
 const users: IUser[] = [
     { userId: "1", email :"test@gmail.com", name: "test", password: "test", token: "fake-jwt-token" }
@@ -49,7 +61,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         function login() {
             const { email, password } = body;
             const user = users.find(x => x.email === email && x.password === password);
-            if (!user) return unauthorized("email or password is incorrect");
+            if (!user) return errorResponse(loginCredentialsFailError);
             return ok({
                     userId: user.userId,
                     email : user.email,
@@ -59,7 +71,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         }
 
         function getUsers() {
-            if (!isLoggedIn()) return unauthorized("Unauthorised");
+            if (!isLoggedIn()) return errorResponse(notAuthorizedError);
             return ok(users);
         }
 
@@ -67,7 +79,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             const user = body;
             const copy = users.find(x => x.email === body.email)
             if(copy){
-                return unauthorized(body.email + " already exists")
+                return errorResponse(createAlreadyExistsError)
             }else{
                 users.push(user)
                 return ok({
@@ -80,7 +92,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         }
 
         function read(){
-            if (!isLoggedIn()) return unauthorized("Unauthorised");
+            if (!isLoggedIn()) return errorResponse(notAuthorizedError);
             const user = users.find(x => x.token = "fake-jwt-token")
             return ok({
                 userId: user.userId,
@@ -91,7 +103,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         }
 
         function logout(){
-            if (!isLoggedIn()) return unauthorized("Unauthorised");
+            if (!isLoggedIn()) return errorResponse(notAuthorizedError);
             const user = users.find(x => x.token === "fake-jwt-token")
             return ok({
                 userId: user.userId,
@@ -104,15 +116,15 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         function forgot(){
             const { email } = body;
             const user = users.find(x => x.email === email);
-            if (!user) return unauthorized("No account with that email address exists");
-            return ok("An e-mail has been sent to " + email + " with further instructions.")
+            if (!user) return errorResponse(forgotEmailError);
+            return ok(userForgotSuccessMsg(email))
         }
 
         function reset(){
             if(url.endsWith("12345")){
-                return ok("Success! Your password has been changed")
+                return ok(userResetSuccessMsg)
             }else{
-                return unauthorized("Password reset token is invalid or has expired");
+                return errorResponse(resetTokenError);
             }
         }
 
@@ -121,13 +133,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         function ok(body?) {
             return of(new HttpResponse({ status: 200, body }))
         }
-        
-        function notFound(message : string){
-            return throwError({ status : 404, error: message });
-        }
 
-        function unauthorized(message : string) {
-            return throwError({ status: 401, error: message});
+        function errorResponse(httpError){
+            return throwError({ status : httpError.status, error: httpError.body });
         }
 
         function isLoggedIn() {
