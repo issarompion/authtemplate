@@ -1,7 +1,7 @@
 import {createTransport} from "nodemailer"
 import {env,smtpOptions} from "@helpers"
 
-export const sendResetPasswordEmail = (email:string,refreshToken:string) : Promise<string> => {
+export const sendResetPasswordEmail = (email:string,refreshToken:string) : Promise<boolean> => {
     return new Promise((res) => {
           let transporter = createTransport(smtpOptions) 
           let mailOptions = {
@@ -14,13 +14,13 @@ export const sendResetPasswordEmail = (email:string,refreshToken:string) : Promi
             If you did not request this, please ignore this email and your password will remain unchanged.\n`
           };
           
-          transporter.sendMail(mailOptions, function(error, info){
+          transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
               console.log(error);
             } else {
               console.log("Email sent: " + info.response);
             }
-            res("An e-mail has been sent to " + email + " with further instructions.")
+            res(true)
         });         
     })
 }
