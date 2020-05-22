@@ -13,6 +13,6 @@ app.get("/", (req: Request, res: Response) => {
 })
 app.use("/users",usersRouter)
 
-app.listen(env.apiPort || 3000, function () {
+app.listen(env.apiPort || 3000, () => {
     console.log(`Webserver running on ${env.apiUri}`)
 })
