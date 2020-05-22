@@ -1,11 +1,11 @@
 import {IUser} from "./entities"
 
-export interface userResponse {
+export interface IUserResponse {
     status : number,
     body : IUser|IUser[]|string
 }
 
-export interface httpError {
+export interface IHttpError {
     body : string,
     status : number
 }

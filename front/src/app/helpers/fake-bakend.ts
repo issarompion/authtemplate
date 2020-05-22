@@ -4,12 +4,8 @@ import {Observable, of, throwError} from "rxjs";
 import {delay, mergeMap, materialize, dematerialize} from "rxjs/operators";
 import {IUser} from "../models/entities";
 import {
-    noAuthorizationHeaderError,
-    credentialsError,
     createAlreadyExistsError,
-    createBodyError,
     loginCredentialsFailError,
-    jwtError,
     notAuthorizedError,
     forgotEmailError,
     resetTokenError
@@ -23,17 +19,16 @@ const users: IUser[] = [
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const { url, method, headers, body, params } = request;
+        const { url, method, headers, body } = request;
 
         // wrap in delayed observable to simulate server api call
         return of(null)
             .pipe(mergeMap(handleRoute))
-            .pipe(materialize()) // call materialize and dematerialize to ensure delay even if an error is thrown (https://github.com/Reactive-Extensions/RxJS/issues/648)
+            .pipe(materialize())
             .pipe(delay(500))
             .pipe(dematerialize());
 
         function handleRoute() {
-            //console.log(url,method,headers,body,params)
             switch (true) {
                 case url.endsWith("/users/login") && method === "POST":
                     return login();
@@ -121,7 +116,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         }
 
         function reset(){
-            if(url.endsWith("12345")){
+            const fakeRefreshToken = "12345"
+            if(url.endsWith(fakeRefreshToken)){
                 return ok(userResetSuccessMsg)
             }else{
                 return errorResponse(resetTokenError);

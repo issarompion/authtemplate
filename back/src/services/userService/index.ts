@@ -12,13 +12,13 @@ import {env,
     forgotEmailError,
     resetTokenError
 } from "@helpers"
-import {userResponse,IUser} from "@models"
+import {IUserResponse,IUser} from "@models"
 import {sendResetPasswordEmail} from "@utils"
 import {UserModel} from "./schema"
 import {IUserDocument} from "./document"
 
 
-export const list = () : Promise<userResponse> =>{
+export const list = () : Promise<IUserResponse> =>{
     return new Promise((res) => {
         UserModel.find((err, users) => {
             if(err){
@@ -37,7 +37,7 @@ export const list = () : Promise<userResponse> =>{
     });
 }
 
-export const create = (user:IUser) : Promise<userResponse> =>{
+export const create = (user:IUser) : Promise<IUserResponse> =>{
     return new Promise((res) => {
       let  newUser = new UserModel(user)
       newUser.save((err,userCreated) => {
@@ -58,7 +58,7 @@ export const create = (user:IUser) : Promise<userResponse> =>{
     })
 }
 
-export const login = (email:string, password:string) : Promise<userResponse> =>{
+export const login = (email:string, password:string) : Promise<IUserResponse> =>{
     return new Promise((res) => {
         if(email && password){
             UserModel.findOne({email:email}, (err, user) => {
@@ -88,7 +88,7 @@ export const login = (email:string, password:string) : Promise<userResponse> =>{
     })
 }
 
-export const read = (token:string) : Promise<userResponse> =>{
+export const read = (token:string) : Promise<IUserResponse> =>{
     return new Promise((res) => {
         verify(token,env.jwtKey,(err,result:any) =>{
             if(err){
@@ -109,7 +109,7 @@ export const read = (token:string) : Promise<userResponse> =>{
     })
 }
 
-export const logout = (token:string) : Promise<userResponse> =>{
+export const logout = (token:string) : Promise<IUserResponse> =>{
     return new Promise((res) => {
         verify(token,env.jwtKey,(err,result:any)=>{
             if(err){
@@ -133,7 +133,7 @@ export const logout = (token:string) : Promise<userResponse> =>{
     })
 }
 
-export const forgot = (email:string) : Promise<userResponse> =>{
+export const forgot = (email:string) : Promise<IUserResponse> =>{
     return new Promise((res) => {
         UserModel.findOne({email:email},(err, user) => {
             if(err){
@@ -155,7 +155,7 @@ export const forgot = (email:string) : Promise<userResponse> =>{
     })
 }
 
-export const reset = (refreshToken:string,password:string) : Promise<userResponse> =>{
+export const reset = (refreshToken:string,password:string) : Promise<IUserResponse> =>{
     return new Promise((res) => {
         UserModel.findOne({ resetPasswordToken: refreshToken, resetPasswordExpires: { $gt: Date.now() } }, (err, user) => {
             if(err){
@@ -176,7 +176,7 @@ export const reset = (refreshToken:string,password:string) : Promise<userRespons
     })
 }
 
-export const remove = (token:string) : Promise<userResponse> => {
+export const remove = (token:string) : Promise<IUserResponse> => {
     return new Promise((res) => {
         verify(token,env.jwtKey,(err,result:any) => {
             if(err){
