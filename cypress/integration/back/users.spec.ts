@@ -331,7 +331,7 @@ describe("Delete user", () => {
         .should("include", "application/json")
     })
 
-    it("DELETE /users/me => => noAuthorizationHeaderError", () => {
+    it("DELETE /users/me => noAuthorizationHeaderError", () => {
         cy.request({
             method:"DELETE",
             url: "/users/me",
