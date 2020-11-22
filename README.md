@@ -31,15 +31,13 @@ $ npm run build:back
 $ npm run build:front
 ```
 
-### start in 2 consoles
+### DEV : start in 2 consoles
 
 ```bash
 $ npm run start:back
 ```
 
-```bash
-$ npm run start:front
-```
+(dev mode) `$ npm run start:front` or (prod mode) `$ npm run prod:front`
 
 ### test
 

@@ -11,6 +11,7 @@
     "cy:run:front": "CYPRESS_BASE_URL=http://localhost:4200 ./node_modules/.bin/cypress run --spec cypress/integration/front/*.spec.ts",
     "start:back": "cd back && npm run start",
     "start:front": "cd front && npm run start",
+    "prod:front": "cd front && npm run prod",
     "test:back": "./node_modules/.bin/start-server-and-test start:back http://localhost:3000 cy:run:back",
     "test:front": "./node_modules/.bin/start-server-and-test start:front http://localhost:4200 cy:run:front",
     "test": "npm run test:back && npm run test:front"

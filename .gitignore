@@ -104,3 +104,9 @@ dist
 
 # TernJS port file
 .tern-port
+
+# DS_store
+.DS_store
+
+# Cypress
+cypress/screenshots/
