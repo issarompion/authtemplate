@@ -15,7 +15,7 @@
     "kafka-node": "~5.0.0",
     "module-alias": "~2.2.2",
     "mongoose": "~5.8.7",
-    "nodemailer": "~6.4.6",
+    "nodemailer": "~6.4.16",
     "nodemailer-smtp-transport": "~2.7.4",
     "path": "~0.12.7",
     "typescript": "~3.5.3"
